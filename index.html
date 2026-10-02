@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaoBao Shop - Colecciona, Juega, Sonríe</title>
+    <style>
+        :root {
+            --primary: #FFB7B2; /* Rosa pastel */
+            --secondary: #E2F0CB; /* Verde menta pastel */
+            --purple: #D5AAFF; /* Morado del logo */
+            --text: #333333;
+            --bg: #FFF9E6; /* Fondo amarillo suave del logo */
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: var(--purple);
+            padding: 20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border: 3px solid var(--primary);
+        }
+        .product-image {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        .price {
+            font-size: 24px;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .btn-add {
+            background-color: var(--purple);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+        .btn-add:hover {
+            transform: scale(1.05);
+            background-color: #b886ee;
+        }
+        /* Estilos del Carrito */
+        .cart-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border: 3px solid var(--secondary);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .btn-remove {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+        .total-section {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .btn-pay {
+            background-color: #25D366; /* Verde WhatsApp / Pago */
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            display: block;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-pay:hover {
+            transform: scale(1.05);
+        }
+        .logo-img {
+            width: 150px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        BaoBao Shop 🐼
+    </header>
+
+    <!-- Aquí puedes reemplazar src="tu_logo.jpg" con la ruta de tu imagen real si la tienes en la misma carpeta -->
+    <img class="logo-img" src="WhatsApp Image 2026-10-02 at 10.09.46 AM.jpeg" alt="BaoBao Shop Logo" onerror="this.src='https://via.placeholder.com/150x150/D5AAFF/FFFFFF?text=BaoBao+Shop'">
+    <p>Colecciona • Juega • Sonríe</p>
+
+    <div class="container">
+        <!-- Sección de Productos -->
+        <div class="products-section">
+            <div class="product-card">
+                <img class="product-image" src="https://via.placeholder.com/250x250/FFB7B2/333333?text=Dumpling+Squishy" alt="Dumpling">
+                <h3>Dumpling Squishy (1 Unidad)</h3>
+                <p>Alivio instantáneo para el estrés.</p>
+                <div class="price">$15.000 COP</div>
+                <button class="btn-add" onclick="agregarAlCarrito('Dumpling Individual', 15000)">Añadir al Carrito</button>
+            </div>
+
+            <div class="product-card" style="margin-top: 20px;">
+                <img class="product-image" src="https://via.placeholder.com/250x250/E2F0CB/333333?text=Kit+x3+Dumplings" alt="Kit Dumpling">
+                <h3>Kit Supervivencia (3 Unidades)</h3>
+                <p>Uno para ti, otro para regalar.</p>
+                <div class="price">$35.000 COP</div>
+                <button class="btn-add" onclick="agregarAlCarrito('Kit x3 Dumplings', 35000)">Añadir al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Sección del Carrito -->
+        <div class="cart-container">
+            <h3>🛒 Tu Carrito</h3>
+            <div id="lista-carrito">
+                <p style="color: #888;">El carrito está vacío</p>
+            </div>
+            <div class="total-section">
+                Total: $<span id="total-precio">0</span> COP
+            </div>
+            <!-- Botón de Pago con Mercado Pago -->
+            <button class="btn-pay" onclick="procesarPago()">Ir a Pagar</button>
+            <p style="font-size: 11px; margin-top: 10px; color: #666;">Pago seguro a través de Mercado Pago</p>
+        </div>
+    </div>
+
+    <!-- Lógica del Carrito en JavaScript -->
+    <script>
+        let carrito = [];
+        let total = 0;
+
+        function agregarAlCarrito(nombre, precio) {
+            carrito.push({ nombre, precio });
+            actualizarCarrito();
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            const lista = document.getElementById('lista-carrito');
+            const totalPrecio = document.getElementById('total-precio');
+
+            lista.innerHTML = '';
+            total = 0;
+
+            if (carrito.length === 0) {
+                lista.innerHTML = '<p style="color: #888;">El carrito está vacío</p>';
+                totalPrecio.innerText = '0';
+                return;
+            }
+
+            carrito.forEach((item, index) => {
+                total += item.precio;
+                lista.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.nombre}</span>
+                        <span>$${item.precio.toLocaleString('es-CO')}</span>
+                        <button class="btn-remove" onclick="eliminarDelCarrito(${index})">X</button>
+                    </div>
+                `;
+            });
+
+            totalPrecio.innerText = total.toLocaleString('es-CO');
+        }
+
+        function procesarPago() {
+            if (carrito.length === 0) {
+                alert("Tu carrito está vacío. ¡Agrega unos dumplings primero!");
+                return;
+            }
+
+            // ==========================================
+            // INTEGRACIÓN CON PASARELA DE PAGOS (Mercado Pago)
+            // ==========================================
+            // En un entorno real, aquí se envía la información del carrito a tu servidor 
+            // o se utiliza el SDK de Mercado Pago (Checkout Pro / Checkout Brick).
+            // Como esta es una página estática para validar, puedes usar un "Link de Pago" estático,
+            // o redirigir a un script de Python backend que genere la preferencia.
+
+            alert("¡Perfecto! El total es de $" + total.toLocaleString('es-CO') + " COP.
+
+Redirigiendo a la pasarela de pagos segura...");
+
+            // Reemplaza esta URL con tu Link de Pago real generado en tu cuenta de Mercado Pago
+            // window.location.href = "https://link.mercadopago.com.co/tu_link_de_pago";
+        }
+    </script>
+</body>
+</html>
